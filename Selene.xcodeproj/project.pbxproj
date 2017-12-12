@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52E495E51FDE310A00BA069B /* vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E31FDE310A00BA069B /* vert.glsl */; };
+		52E495E61FDE310A00BA069B /* frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E41FDE310A00BA069B /* frag.glsl */; };
+		52E495EA1FDE32B100BA069B /* ShaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E495E91FDE32B100BA069B /* ShaderOperation.m */; };
+		52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52E496081FDE9DC700BA069B /* IMG_0227.jpg */; };
 		52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BC51FD8F71300928F1E /* AppDelegate.m */; };
 		52F96BC91FD8F71300928F1E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BC81FD8F71300928F1E /* ViewController.m */; };
 		52F96BCC1FD8F71300928F1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCA1FD8F71300928F1E /* Main.storyboard */; };
@@ -17,6 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		52E495E31FDE310A00BA069B /* vert.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vert.glsl; sourceTree = "<group>"; };
+		52E495E41FDE310A00BA069B /* frag.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frag.glsl; sourceTree = "<group>"; };
+		52E495E81FDE32B100BA069B /* ShaderOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderOperation.h; sourceTree = "<group>"; };
+		52E495E91FDE32B100BA069B /* ShaderOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShaderOperation.m; sourceTree = "<group>"; };
+		52E496081FDE9DC700BA069B /* IMG_0227.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0227.jpg; sourceTree = "<group>"; };
 		52F96BC11FD8F71300928F1E /* Selene.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Selene.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F96BC41FD8F71300928F1E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		52F96BC51FD8F71300928F1E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -42,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52E495E71FDE310C00BA069B /* Shader */ = {
+			isa = PBXGroup;
+			children = (
+				52E495E31FDE310A00BA069B /* vert.glsl */,
+				52E495E41FDE310A00BA069B /* frag.glsl */,
+			);
+			path = Shader;
+			sourceTree = "<group>";
+		};
 		52F96BB81FD8F71300928F1E = {
 			isa = PBXGroup;
 			children = (
@@ -61,12 +79,16 @@
 		52F96BC31FD8F71300928F1E /* Selene */ = {
 			isa = PBXGroup;
 			children = (
+				52E495E71FDE310C00BA069B /* Shader */,
 				52F96BC41FD8F71300928F1E /* AppDelegate.h */,
 				52F96BC51FD8F71300928F1E /* AppDelegate.m */,
 				52F96BC71FD8F71300928F1E /* ViewController.h */,
 				52F96BC81FD8F71300928F1E /* ViewController.m */,
 				52F96C0D1FD9295700928F1E /* OpenGLView.h */,
 				52F96C0E1FD9295700928F1E /* OpenGLView.m */,
+				52E496081FDE9DC700BA069B /* IMG_0227.jpg */,
+				52E495E81FDE32B100BA069B /* ShaderOperation.h */,
+				52E495E91FDE32B100BA069B /* ShaderOperation.m */,
 				52F96BCA1FD8F71300928F1E /* Main.storyboard */,
 				52F96BCD1FD8F71300928F1E /* Assets.xcassets */,
 				52F96BCF1FD8F71300928F1E /* LaunchScreen.storyboard */,
@@ -136,6 +158,9 @@
 			files = (
 				52F96BD11FD8F71300928F1E /* LaunchScreen.storyboard in Resources */,
 				52F96BCE1FD8F71300928F1E /* Assets.xcassets in Resources */,
+				52E495E51FDE310A00BA069B /* vert.glsl in Resources */,
+				52E495E61FDE310A00BA069B /* frag.glsl in Resources */,
+				52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */,
 				52F96BCC1FD8F71300928F1E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,6 +175,7 @@
 				52F96BC91FD8F71300928F1E /* ViewController.m in Sources */,
 				52F96BD41FD8F71300928F1E /* main.m in Sources */,
 				52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */,
+				52E495EA1FDE32B100BA069B /* ShaderOperation.m in Sources */,
 				52F96C0F1FD9295700928F1E /* OpenGLView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
