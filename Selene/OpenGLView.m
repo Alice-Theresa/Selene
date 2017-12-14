@@ -11,6 +11,8 @@
 #import "OpenGLView.h"
 #import "ShaderOperation.h"
 
+void dataProviderReleaseCallback (void *info, const void *data, size_t size);
+
 @implementation OpenGLView {
     CAEAGLLayer *_eaglLayer;
     EAGLContext *_context;
@@ -37,7 +39,7 @@
         [self setupBuffer];
         [self setupGLProgram];
         [self setupVBO];
-        [self setupTexure];
+        [self setupTexture];
         [self render];
     }
     return self;
@@ -101,11 +103,30 @@
     glEnableVertexAttribArray(_colorSlot);
 }
 
-- (void)setupTexure {
+- (void)setupTextureWithGLKit {
     NSError *error;
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"IMG_0227" ofType:@"jpg"];
     _spriteTexture = [GLKTextureLoader textureWithContentsOfFile:filePath options:nil error:&error];
     _image = glGetUniformLocation(_glProgram, "image");
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(_spriteTexture.target, _spriteTexture.name);
+    glUniform1i(_image, 0);
+}
+
+- (void)setupTexture {
+    CGImageRef cg = [UIImage imageNamed:@"IMG_0227.jpg"].CGImage;
+    CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(cg));
+    GLubyte *imageData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
+    
+    GLuint texID;
+    glGenTextures(1, &texID);
+    glBindTexture(GL_TEXTURE_2D, texID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)CGImageGetWidth(cg), (int)CGImageGetHeight(cg), 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+
 }
 
 - (void)render {
@@ -113,13 +134,36 @@
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
     
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(_spriteTexture.target, _spriteTexture.name);
-    glUniform1i(_image, 0);
-    
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
+    glFinish();
+    UIImage *image = [UIImage imageNamed:@"IMG_0227.jpg"];
+    NSUInteger totalBytesForImage = image.size.width * image.size.height * 4;
+    GLubyte *rawImagePixels = (GLubyte *)malloc(totalBytesForImage);
+    glReadPixels(0, 0, (int)image.size.width, (int)image.size.height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
+    CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL,
+                                                                  rawImagePixels,
+                                                                  totalBytesForImage,
+                                                                  NULL);
+    CGImageRef cgImageFromBytes = CGImageCreate((int)image.size.width,
+                                                (int)image.size.height,
+                                                8,
+                                                32,
+                                                4 * (int)image.size.width,
+                                                CGColorSpaceCreateDeviceRGB(),
+                                                kCGBitmapByteOrderDefault | kCGImageAlphaLast,
+                                                dataProvider,
+                                                NULL,
+                                                YES,
+                                                kCGRenderingIntentDefault);
+    UIImage *finalImage = [UIImage imageWithCGImage:cgImageFromBytes];
+    
     [_context presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+void dataProviderReleaseCallback (void *info, const void *data, size_t size)
+{
+    free((void *)data);
 }
 
 @end
