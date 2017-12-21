@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "OpenGLView.h"
+#import "GLRender.h"
 
 @interface ViewController ()
 
@@ -17,8 +17,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view = [[OpenGLView alloc] initWithFrame:self.view.bounds];
-    
+
+    GLRender *r = [[GLRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
+    UIImage *i = [r render];
 }
 
 @end
