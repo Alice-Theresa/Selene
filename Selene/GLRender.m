@@ -10,29 +10,34 @@
 #import "ShaderOperation.h"
 
 @implementation GLRender {
+    GLuint _width;
+    GLuint _height;
+    GLubyte *_imageData;
+    
     EAGLContext *_context;
     
+    GLuint _texture;
     GLuint _colorRenderBuffer;
     GLuint _frameBuffer;
     
     GLuint _glProgram;
     GLuint _positionSlot;
-    GLuint _colorSlot;
-    
-    GLint _image;
-    GLubyte *_imageData;
-    GLuint _width;
-    GLuint _height;
+    GLuint _coordSlot;
+}
+
+- (void)dealloc {
+    [self cleanBuffer];
 }
 
 - (instancetype)initWithImage:(UIImage *)image {
     if (self = [super init]) {
         [self setupImage:image];
         [self setupContext];
+        [self setupTexture];
+        [self cleanBuffer];
         [self setupBuffer];
         [self setupGLProgram];
         [self setupVBO];
-        [self setupTexture];
     }
     return self;
 }
@@ -57,23 +62,37 @@
     }
 }
 
+- (void)setupTexture {
+    glGenTextures(1, &_texture);
+    glBindTexture(GL_TEXTURE_2D, _texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
+}
+
 - (void)setupBuffer {
-    glDeleteRenderbuffers(1, &_colorRenderBuffer);
     glGenRenderbuffers(1, &_colorRenderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, _width, _height);
     
-    glDeleteFramebuffers(1, &_frameBuffer);
     glGenFramebuffers(1, &_frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture, 0);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _colorRenderBuffer);
+}
+
+- (void)cleanBuffer {
+    glDeleteRenderbuffers(1, &_colorRenderBuffer);
+    glDeleteFramebuffers(1, &_frameBuffer);
+    _colorRenderBuffer = 0;
+    _frameBuffer = 0;
 }
 
 - (void)setupGLProgram {
     _glProgram = [ShaderOperation compileVertex:@"vert" fragment:@"frag"];
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
-    _colorSlot = glGetAttribLocation(_glProgram, "texcoord");
+    _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
 }
 
 - (void)setupVBO {
@@ -93,21 +112,11 @@
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, 0);
     glEnableVertexAttribArray(_positionSlot);
     
-    glVertexAttribPointer(_colorSlot, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT) * 3);
-    glEnableVertexAttribArray(_colorSlot);
+    glVertexAttribPointer(_coordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT) * 3);
+    glEnableVertexAttribArray(_coordSlot);
 }
 
-- (void)setupTexture {
-    GLuint texID;
-    glGenTextures(1, &texID);
-    glBindTexture(GL_TEXTURE_2D, texID);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
-    
-}
-
-- (UIImage *)render {
+- (UIImage *)renderNewImage {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, _width, _height);
@@ -115,7 +124,7 @@
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
     glFinish();
-    NSUInteger totalBytesForImage = _width * _height * 4;
+    GLuint totalBytesForImage = _width * _height * 4;
     GLubyte *rawImagePixels = (GLubyte*)malloc(totalBytesForImage * sizeof(GLubyte));
     
     glReadPixels(0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
@@ -133,7 +142,9 @@
                                                 NULL,
                                                 YES,
                                                 kCGRenderingIntentDefault);
+    CGDataProviderRelease(dataProvider);
     CGColorSpaceRelease(colorSpace);
+//    free(rawImagePixels); bug
     return [UIImage imageWithCGImage:cgImageFromBytes];
 }
 

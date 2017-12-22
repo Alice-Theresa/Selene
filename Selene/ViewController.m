@@ -19,7 +19,7 @@
     [super viewDidLoad];
 
     GLRender *r = [[GLRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
-    UIImage *i = [r render];
+    UIImage *i = [r renderNewImage];
 }
 
 @end
