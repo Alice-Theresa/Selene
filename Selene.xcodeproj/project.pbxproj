@@ -18,6 +18,8 @@
 		52F96BCE1FD8F71300928F1E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCD1FD8F71300928F1E /* Assets.xcassets */; };
 		52F96BD11FD8F71300928F1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCF1FD8F71300928F1E /* LaunchScreen.storyboard */; };
 		52F96BD41FD8F71300928F1E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BD31FD8F71300928F1E /* main.m */; };
+		766790761FF288F300C05E68 /* vertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 766790741FF288F200C05E68 /* vertex.glsl */; };
+		766790771FF288F300C05E68 /* fragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 766790751FF288F300C05E68 /* fragment.glsl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		52F96BD01FD8F71300928F1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52F96BD21FD8F71300928F1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52F96BD31FD8F71300928F1E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		766790741FF288F200C05E68 /* vertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vertex.glsl; sourceTree = "<group>"; };
+		766790751FF288F300C05E68 /* fragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragment.glsl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 			children = (
 				52E495E31FDE310A00BA069B /* vert.glsl */,
 				52E495E41FDE310A00BA069B /* frag.glsl */,
+				766790741FF288F200C05E68 /* vertex.glsl */,
+				766790751FF288F300C05E68 /* fragment.glsl */,
 			);
 			path = Shader;
 			sourceTree = "<group>";
@@ -157,9 +163,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				52F96BD11FD8F71300928F1E /* LaunchScreen.storyboard in Resources */,
+				766790771FF288F300C05E68 /* fragment.glsl in Resources */,
 				52F96BCE1FD8F71300928F1E /* Assets.xcassets in Resources */,
 				52E495E51FDE310A00BA069B /* vert.glsl in Resources */,
 				52E495E61FDE310A00BA069B /* frag.glsl in Resources */,
+				766790761FF288F300C05E68 /* vertex.glsl in Resources */,
 				52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */,
 				52F96BCC1FD8F71300928F1E /* Main.storyboard in Resources */,
 			);

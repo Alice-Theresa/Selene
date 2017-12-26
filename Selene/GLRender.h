@@ -14,6 +14,6 @@
 @interface GLRender : NSObject
 
 - (instancetype)initWithImage:(UIImage *)image;
-- (UIImage *)renderNewImage;
+- (UIImage *)fetchImage;
 
 @end

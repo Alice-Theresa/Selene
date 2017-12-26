@@ -17,12 +17,19 @@
     EAGLContext *_context;
     
     GLuint _texture;
+    GLuint _texture2;
+    
     GLuint _colorRenderBuffer;
     GLuint _frameBuffer;
+    GLuint _frameBuffer2;
     
     GLuint _glProgram;
     GLuint _positionSlot;
     GLuint _coordSlot;
+    
+    GLuint _glProgram2;
+    GLuint _positionSlot2;
+    GLuint _coordSlot2;
 }
 
 - (void)dealloc {
@@ -33,11 +40,14 @@
     if (self = [super init]) {
         [self setupImage:image];
         [self setupContext];
-        [self setupTexture];
-        [self cleanBuffer];
-        [self setupBuffer];
         [self setupGLProgram];
+        [self setupTexture];
         [self setupVBO];
+        [self setupTemp];
+        [self render];
+        [self setup2];
+        [self setupTemp2];
+        [self render];
     }
     return self;
 }
@@ -62,23 +72,57 @@
     }
 }
 
+- (void)setupGLProgram {
+    _glProgram = [ShaderOperation compileVertex:@"vert" fragment:@"frag"];
+    glUseProgram(_glProgram);
+    _positionSlot = glGetAttribLocation(_glProgram, "position");
+    _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
+}
+
 - (void)setupTexture {
+    glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &_texture);
     glBindTexture(GL_TEXTURE_2D, _texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
+    glUniform1f(glGetAttribLocation(_glProgram, "image"), 0);
 }
 
-- (void)setupBuffer {
-    glGenRenderbuffers(1, &_colorRenderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, _width, _height);
+- (void)setupTemp {
+    glActiveTexture(GL_TEXTURE1);
+    glGenTextures(1, &_texture2);
+    glBindTexture(GL_TEXTURE_2D, _texture2);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    
     
     glGenFramebuffers(1, &_frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture, 0);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _colorRenderBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture2, 0);
+}
+
+- (void)setup2 {
+    _glProgram2 = [ShaderOperation compileVertex:@"vertex" fragment:@"fragment"];
+    glUseProgram(_glProgram);
+    _positionSlot = glGetAttribLocation(_glProgram2, "position");
+    _coordSlot = glGetAttribLocation(_glProgram2, "texcoord");
+}
+
+- (void)setupTemp2 {
+    GLuint texture3;
+    glActiveTexture(GL_TEXTURE2);
+    glGenTextures(1, &texture3);
+    glBindTexture(GL_TEXTURE_2D, texture3);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glUniform1f(glGetAttribLocation(_glProgram2, "image"), 1);
+    
+    glGenFramebuffers(1, &_frameBuffer2);
+    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer2);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture3, 0);
 }
 
 - (void)cleanBuffer {
@@ -86,13 +130,6 @@
     glDeleteFramebuffers(1, &_frameBuffer);
     _colorRenderBuffer = 0;
     _frameBuffer = 0;
-}
-
-- (void)setupGLProgram {
-    _glProgram = [ShaderOperation compileVertex:@"vert" fragment:@"frag"];
-    glUseProgram(_glProgram);
-    _positionSlot = glGetAttribLocation(_glProgram, "position");
-    _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
 }
 
 - (void)setupVBO {
@@ -116,14 +153,14 @@
     glEnableVertexAttribArray(_coordSlot);
 }
 
-- (UIImage *)renderNewImage {
+- (void)render {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, _width, _height);
-    
     glDrawArrays(GL_TRIANGLES, 0, 6);
-    
-    glFinish();
+}
+
+- (UIImage *)fetchImage {
     GLuint totalBytesForImage = _width * _height * 4;
     GLubyte *rawImagePixels = (GLubyte*)malloc(totalBytesForImage * sizeof(GLubyte));
     

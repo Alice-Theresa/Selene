@@ -19,7 +19,10 @@
     [super viewDidLoad];
 
     GLRender *r = [[GLRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
-    UIImage *i = [r renderNewImage];
+    UIImage *i = [r fetchImage];
+    UIImageView *iv = [[UIImageView alloc] initWithImage:i];
+    iv.frame = self.view.bounds;
+    [self.view addSubview:iv];
 }
 
 @end
