@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		525B7F411FF3C66000A61160 /* SACContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F401FF3C66000A61160 /* SACContext.m */; };
-		52A170E11FE77DAF00E3FDA0 /* GLRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A170E01FE77DAF00E3FDA0 /* GLRender.m */; };
-		52E495E51FDE310A00BA069B /* vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E31FDE310A00BA069B /* vert.glsl */; };
-		52E495E61FDE310A00BA069B /* frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E41FDE310A00BA069B /* frag.glsl */; };
+		525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F431FF3CBB900A61160 /* SACFilter.m */; };
+		525B7F471FF3CF1100A61160 /* Origin.frag in Resources */ = {isa = PBXBuildFile; fileRef = 525B7F451FF3CF1100A61160 /* Origin.frag */; };
+		525B7F481FF3CF1100A61160 /* Origin.vert in Resources */ = {isa = PBXBuildFile; fileRef = 525B7F461FF3CF1100A61160 /* Origin.vert */; };
+		52A170E11FE77DAF00E3FDA0 /* SACRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A170E01FE77DAF00E3FDA0 /* SACRender.m */; };
+		52E495E51FDE310A00BA069B /* GrayScale.vert in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E31FDE310A00BA069B /* GrayScale.vert */; };
+		52E495E61FDE310A00BA069B /* GrayScale.frag in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E41FDE310A00BA069B /* GrayScale.frag */; };
 		52E495EA1FDE32B100BA069B /* ShaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E495E91FDE32B100BA069B /* ShaderOperation.m */; };
 		52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52E496081FDE9DC700BA069B /* IMG_0227.jpg */; };
 		52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BC51FD8F71300928F1E /* AppDelegate.m */; };
@@ -19,17 +22,21 @@
 		52F96BCE1FD8F71300928F1E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCD1FD8F71300928F1E /* Assets.xcassets */; };
 		52F96BD11FD8F71300928F1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCF1FD8F71300928F1E /* LaunchScreen.storyboard */; };
 		52F96BD41FD8F71300928F1E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BD31FD8F71300928F1E /* main.m */; };
-		766790761FF288F300C05E68 /* vertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 766790741FF288F200C05E68 /* vertex.glsl */; };
-		766790771FF288F300C05E68 /* fragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 766790751FF288F300C05E68 /* fragment.glsl */; };
+		766790761FF288F300C05E68 /* AntiColor.vert in Resources */ = {isa = PBXBuildFile; fileRef = 766790741FF288F200C05E68 /* AntiColor.vert */; };
+		766790771FF288F300C05E68 /* AntiColor.frag in Resources */ = {isa = PBXBuildFile; fileRef = 766790751FF288F300C05E68 /* AntiColor.frag */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		525B7F3F1FF3C66000A61160 /* SACContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SACContext.h; sourceTree = "<group>"; };
 		525B7F401FF3C66000A61160 /* SACContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SACContext.m; sourceTree = "<group>"; };
-		52A170DF1FE77DAF00E3FDA0 /* GLRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender.h; sourceTree = "<group>"; };
-		52A170E01FE77DAF00E3FDA0 /* GLRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender.m; sourceTree = "<group>"; };
-		52E495E31FDE310A00BA069B /* vert.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vert.glsl; sourceTree = "<group>"; };
-		52E495E41FDE310A00BA069B /* frag.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = frag.glsl; sourceTree = "<group>"; };
+		525B7F421FF3CBB900A61160 /* SACFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SACFilter.h; sourceTree = "<group>"; };
+		525B7F431FF3CBB900A61160 /* SACFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SACFilter.m; sourceTree = "<group>"; };
+		525B7F451FF3CF1100A61160 /* Origin.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Origin.frag; sourceTree = "<group>"; };
+		525B7F461FF3CF1100A61160 /* Origin.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Origin.vert; sourceTree = "<group>"; };
+		52A170DF1FE77DAF00E3FDA0 /* SACRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SACRender.h; sourceTree = "<group>"; };
+		52A170E01FE77DAF00E3FDA0 /* SACRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SACRender.m; sourceTree = "<group>"; };
+		52E495E31FDE310A00BA069B /* GrayScale.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GrayScale.vert; sourceTree = "<group>"; };
+		52E495E41FDE310A00BA069B /* GrayScale.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GrayScale.frag; sourceTree = "<group>"; };
 		52E495E81FDE32B100BA069B /* ShaderOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderOperation.h; sourceTree = "<group>"; };
 		52E495E91FDE32B100BA069B /* ShaderOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShaderOperation.m; sourceTree = "<group>"; };
 		52E496081FDE9DC700BA069B /* IMG_0227.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0227.jpg; sourceTree = "<group>"; };
@@ -43,8 +50,8 @@
 		52F96BD01FD8F71300928F1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52F96BD21FD8F71300928F1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52F96BD31FD8F71300928F1E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		766790741FF288F200C05E68 /* vertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vertex.glsl; sourceTree = "<group>"; };
-		766790751FF288F300C05E68 /* fragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragment.glsl; sourceTree = "<group>"; };
+		766790741FF288F200C05E68 /* AntiColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AntiColor.vert; sourceTree = "<group>"; };
+		766790751FF288F300C05E68 /* AntiColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AntiColor.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +65,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		525B7F491FF3CF3200A61160 /* Render */ = {
+			isa = PBXGroup;
+			children = (
+				52A170DF1FE77DAF00E3FDA0 /* SACRender.h */,
+				52A170E01FE77DAF00E3FDA0 /* SACRender.m */,
+				525B7F421FF3CBB900A61160 /* SACFilter.h */,
+				525B7F431FF3CBB900A61160 /* SACFilter.m */,
+				525B7F3F1FF3C66000A61160 /* SACContext.h */,
+				525B7F401FF3C66000A61160 /* SACContext.m */,
+				52E495E81FDE32B100BA069B /* ShaderOperation.h */,
+				52E495E91FDE32B100BA069B /* ShaderOperation.m */,
+			);
+			path = Render;
+			sourceTree = "<group>";
+		};
+		525B7F4A1FF3CF5300A61160 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				52E496081FDE9DC700BA069B /* IMG_0227.jpg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		52E495E71FDE310C00BA069B /* Shader */ = {
 			isa = PBXGroup;
 			children = (
-				52E495E31FDE310A00BA069B /* vert.glsl */,
-				52E495E41FDE310A00BA069B /* frag.glsl */,
-				766790741FF288F200C05E68 /* vertex.glsl */,
-				766790751FF288F300C05E68 /* fragment.glsl */,
+				766790751FF288F300C05E68 /* AntiColor.frag */,
+				766790741FF288F200C05E68 /* AntiColor.vert */,
+				52E495E41FDE310A00BA069B /* GrayScale.frag */,
+				52E495E31FDE310A00BA069B /* GrayScale.vert */,
+				525B7F451FF3CF1100A61160 /* Origin.frag */,
+				525B7F461FF3CF1100A61160 /* Origin.vert */,
 			);
 			path = Shader;
 			sourceTree = "<group>";
@@ -88,18 +120,13 @@
 		52F96BC31FD8F71300928F1E /* Selene */ = {
 			isa = PBXGroup;
 			children = (
+				525B7F4A1FF3CF5300A61160 /* Resources */,
 				52E495E71FDE310C00BA069B /* Shader */,
+				525B7F491FF3CF3200A61160 /* Render */,
 				52F96BC41FD8F71300928F1E /* AppDelegate.h */,
 				52F96BC51FD8F71300928F1E /* AppDelegate.m */,
 				52F96BC71FD8F71300928F1E /* ViewController.h */,
 				52F96BC81FD8F71300928F1E /* ViewController.m */,
-				52A170DF1FE77DAF00E3FDA0 /* GLRender.h */,
-				52A170E01FE77DAF00E3FDA0 /* GLRender.m */,
-				525B7F3F1FF3C66000A61160 /* SACContext.h */,
-				525B7F401FF3C66000A61160 /* SACContext.m */,
-				52E496081FDE9DC700BA069B /* IMG_0227.jpg */,
-				52E495E81FDE32B100BA069B /* ShaderOperation.h */,
-				52E495E91FDE32B100BA069B /* ShaderOperation.m */,
 				52F96BCA1FD8F71300928F1E /* Main.storyboard */,
 				52F96BCD1FD8F71300928F1E /* Assets.xcassets */,
 				52F96BCF1FD8F71300928F1E /* LaunchScreen.storyboard */,
@@ -167,12 +194,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				525B7F481FF3CF1100A61160 /* Origin.vert in Resources */,
 				52F96BD11FD8F71300928F1E /* LaunchScreen.storyboard in Resources */,
-				766790771FF288F300C05E68 /* fragment.glsl in Resources */,
+				525B7F471FF3CF1100A61160 /* Origin.frag in Resources */,
+				766790771FF288F300C05E68 /* AntiColor.frag in Resources */,
 				52F96BCE1FD8F71300928F1E /* Assets.xcassets in Resources */,
-				52E495E51FDE310A00BA069B /* vert.glsl in Resources */,
-				52E495E61FDE310A00BA069B /* frag.glsl in Resources */,
-				766790761FF288F300C05E68 /* vertex.glsl in Resources */,
+				52E495E51FDE310A00BA069B /* GrayScale.vert in Resources */,
+				52E495E61FDE310A00BA069B /* GrayScale.frag in Resources */,
+				766790761FF288F300C05E68 /* AntiColor.vert in Resources */,
 				52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */,
 				52F96BCC1FD8F71300928F1E /* Main.storyboard in Resources */,
 			);
@@ -190,7 +219,8 @@
 				52F96BD41FD8F71300928F1E /* main.m in Sources */,
 				52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */,
 				52E495EA1FDE32B100BA069B /* ShaderOperation.m in Sources */,
-				52A170E11FE77DAF00E3FDA0 /* GLRender.m in Sources */,
+				525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */,
+				52A170E11FE77DAF00E3FDA0 /* SACRender.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

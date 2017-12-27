@@ -1,5 +1,5 @@
 //
-//  GLRender.h
+//  SACRender.h
 //  Selene
 //
 //  Created by Theresa on 2017/12/18.
@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GLRender : NSObject
+@interface SACRender : NSObject
 
 - (instancetype)initWithImage:(UIImage *)image;
 - (UIImage *)fetchImage;

@@ -1,15 +1,23 @@
 //
-//  GLRender.m
+//  SACRender.m
 //  Selene
 //
 //  Created by Theresa on 2017/12/18.
 //  Copyright © 2017年 Theresa. All rights reserved.
 //
 
-#import "GLRender.h"
+#import "SACRender.h"
 #import "ShaderOperation.h"
+#import "SACContext.h"
 
-@implementation GLRender {
+@interface SACRender ()
+
+@property (nonatomic, strong) NSMutableArray * filters;
+@property (nonatomic, strong) dispatch_queue_t queue;
+
+@end
+
+@implementation SACRender {
     GLuint _width;
     GLuint _height;
     GLubyte *_imageData;
@@ -19,7 +27,6 @@
     GLuint _texture;
     GLuint _texture2;
     
-    GLuint _colorRenderBuffer;
     GLuint _frameBuffer;
     GLuint _frameBuffer2;
     
@@ -28,8 +35,6 @@
     GLuint _coordSlot;
     
     GLuint _glProgram2;
-    GLuint _positionSlot2;
-    GLuint _coordSlot2;
 }
 
 - (void)dealloc {
@@ -38,18 +43,28 @@
 
 - (instancetype)initWithImage:(UIImage *)image {
     if (self = [super init]) {
+        _queue = dispatch_queue_create("com.opengl.queue", 0);
+        _filters = [NSMutableArray array];
+        
         [self setupImage:image];
         [self setupContext];
         [self setupGLProgram];
-        [self setupTexture];
+        [self setupOriginTexture];
         [self setupVBO];
+        [self activeVBO];
         [self setupTemp];
         [self render];
+        
         [self setup2];
         [self setupTemp2];
         [self render];
     }
     return self;
+}
+
+- (void)cleanBuffer {
+    glDeleteFramebuffers(1, &_frameBuffer);
+    _frameBuffer = 0;
 }
 
 - (void)setupImage:(UIImage *)image {
@@ -61,25 +76,17 @@
 }
 
 - (void)setupContext {
-    _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-    if (!_context) {
-        NSLog(@"Failed to initialize OpenGLES 3.0 context");
-        exit(1);
-    }
-    if (![EAGLContext setCurrentContext:_context]) {
-        NSLog(@"Failed to set current OpenGL context");
-        exit(1);
-    }
+    [[SACContext sharedContext] setCurrentContext];
 }
 
 - (void)setupGLProgram {
-    _glProgram = [ShaderOperation compileVertex:@"vert" fragment:@"frag"];
+    _glProgram = [ShaderOperation compileVertex:@"GrayScale" fragment:@"GrayScale"];
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
     _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
 }
 
-- (void)setupTexture {
+- (void)setupOriginTexture {
     glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &_texture);
     glBindTexture(GL_TEXTURE_2D, _texture);
@@ -103,7 +110,7 @@
 }
 
 - (void)setup2 {
-    _glProgram2 = [ShaderOperation compileVertex:@"vertex" fragment:@"fragment"];
+    _glProgram2 = [ShaderOperation compileVertex:@"AntiColor" fragment:@"AntiColor"];
     glUseProgram(_glProgram2);
     _positionSlot = glGetAttribLocation(_glProgram2, "position");
     _coordSlot = glGetAttribLocation(_glProgram2, "texcoord");
@@ -124,13 +131,6 @@
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture3, 0);
 }
 
-- (void)cleanBuffer {
-    glDeleteRenderbuffers(1, &_colorRenderBuffer);
-    glDeleteFramebuffers(1, &_frameBuffer);
-    _colorRenderBuffer = 0;
-    _frameBuffer = 0;
-}
-
 - (void)setupVBO {
     GLfloat vertices[] = {
         1.0f,  1.0f, 0.0f, 1.0f, 0.0f,   // 右上
@@ -144,7 +144,9 @@
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
+}
+
+- (void)activeVBO {
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, 0);
     glEnableVertexAttribArray(_positionSlot);
     
@@ -161,7 +163,7 @@
 
 - (UIImage *)fetchImage {
     GLuint totalBytesForImage = _width * _height * 4;
-    GLubyte *rawImagePixels = (GLubyte*)malloc(totalBytesForImage * sizeof(GLubyte));
+    GLubyte *rawImagePixels = (GLubyte *)malloc(totalBytesForImage * sizeof(GLubyte));
     
     glReadPixels(0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
     

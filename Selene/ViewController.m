@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "GLRender.h"
+#import "SACRender.h"
 
 @interface ViewController ()
 
@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    GLRender *r = [[GLRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
+    SACRender *r = [[SACRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
     UIImage *i = [r fetchImage];
     UIImageView *iv = [[UIImageView alloc] initWithImage:i];
     iv.frame = self.view.bounds;

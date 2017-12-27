@@ -12,7 +12,7 @@
 
 + (GLuint)compileShader:(NSString *)shaderName withType:(GLenum)shaderType {
     // 1 查找shader文件
-    NSString *shaderPath = [[NSBundle mainBundle] pathForResource:shaderName ofType:@"glsl"];
+    NSString *shaderPath = [[NSBundle mainBundle] pathForResource:shaderName ofType:shaderType == GL_VERTEX_SHADER ? @"vert" : @"frag"];
     NSError *error;
     NSString *shaderString = [NSString stringWithContentsOfFile:shaderPath encoding:NSUTF8StringEncoding error:&error];
     if (!shaderString) {
