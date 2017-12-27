@@ -86,7 +86,7 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
-    glUniform1f(glGetAttribLocation(_glProgram, "image"), 0);
+    glUniform1i(glGetUniformLocation(_glProgram, "image"), 0);
 }
 
 - (void)setupTemp {
@@ -97,7 +97,6 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
-    
     glGenFramebuffers(1, &_frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture2, 0);
@@ -105,7 +104,7 @@
 
 - (void)setup2 {
     _glProgram2 = [ShaderOperation compileVertex:@"vertex" fragment:@"fragment"];
-    glUseProgram(_glProgram);
+    glUseProgram(_glProgram2);
     _positionSlot = glGetAttribLocation(_glProgram2, "position");
     _coordSlot = glGetAttribLocation(_glProgram2, "texcoord");
 }
@@ -118,7 +117,7 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glUniform1f(glGetAttribLocation(_glProgram2, "image"), 1);
+    glUniform1i(glGetUniformLocation(_glProgram2, "image"), 1);
     
     glGenFramebuffers(1, &_frameBuffer2);
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer2);

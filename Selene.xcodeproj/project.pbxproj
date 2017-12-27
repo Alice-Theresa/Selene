@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		525B7F411FF3C66000A61160 /* SACContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F401FF3C66000A61160 /* SACContext.m */; };
 		52A170E11FE77DAF00E3FDA0 /* GLRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A170E01FE77DAF00E3FDA0 /* GLRender.m */; };
 		52E495E51FDE310A00BA069B /* vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E31FDE310A00BA069B /* vert.glsl */; };
 		52E495E61FDE310A00BA069B /* frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E41FDE310A00BA069B /* frag.glsl */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		525B7F3F1FF3C66000A61160 /* SACContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SACContext.h; sourceTree = "<group>"; };
+		525B7F401FF3C66000A61160 /* SACContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SACContext.m; sourceTree = "<group>"; };
 		52A170DF1FE77DAF00E3FDA0 /* GLRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender.h; sourceTree = "<group>"; };
 		52A170E01FE77DAF00E3FDA0 /* GLRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender.m; sourceTree = "<group>"; };
 		52E495E31FDE310A00BA069B /* vert.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vert.glsl; sourceTree = "<group>"; };
@@ -92,6 +95,8 @@
 				52F96BC81FD8F71300928F1E /* ViewController.m */,
 				52A170DF1FE77DAF00E3FDA0 /* GLRender.h */,
 				52A170E01FE77DAF00E3FDA0 /* GLRender.m */,
+				525B7F3F1FF3C66000A61160 /* SACContext.h */,
+				525B7F401FF3C66000A61160 /* SACContext.m */,
 				52E496081FDE9DC700BA069B /* IMG_0227.jpg */,
 				52E495E81FDE32B100BA069B /* ShaderOperation.h */,
 				52E495E91FDE32B100BA069B /* ShaderOperation.m */,
@@ -181,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52F96BC91FD8F71300928F1E /* ViewController.m in Sources */,
+				525B7F411FF3C66000A61160 /* SACContext.m in Sources */,
 				52F96BD41FD8F71300928F1E /* main.m in Sources */,
 				52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */,
 				52E495EA1FDE32B100BA069B /* ShaderOperation.m in Sources */,
