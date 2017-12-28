@@ -11,6 +11,8 @@
 		525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F431FF3CBB900A61160 /* SACFilter.m */; };
 		525B7F471FF3CF1100A61160 /* Origin.frag in Resources */ = {isa = PBXBuildFile; fileRef = 525B7F451FF3CF1100A61160 /* Origin.frag */; };
 		525B7F481FF3CF1100A61160 /* Origin.vert in Resources */ = {isa = PBXBuildFile; fileRef = 525B7F461FF3CF1100A61160 /* Origin.vert */; };
+		525B7F4E1FF5106500A61160 /* AntiColorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F4D1FF5106500A61160 /* AntiColorFilter.m */; };
+		526CDC5A1FF51505009A2853 /* GrayScaleFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 526CDC591FF51505009A2853 /* GrayScaleFilter.m */; };
 		52A170E11FE77DAF00E3FDA0 /* SACRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A170E01FE77DAF00E3FDA0 /* SACRender.m */; };
 		52E495E51FDE310A00BA069B /* GrayScale.vert in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E31FDE310A00BA069B /* GrayScale.vert */; };
 		52E495E61FDE310A00BA069B /* GrayScale.frag in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E41FDE310A00BA069B /* GrayScale.frag */; };
@@ -33,6 +35,10 @@
 		525B7F431FF3CBB900A61160 /* SACFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SACFilter.m; sourceTree = "<group>"; };
 		525B7F451FF3CF1100A61160 /* Origin.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Origin.frag; sourceTree = "<group>"; };
 		525B7F461FF3CF1100A61160 /* Origin.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Origin.vert; sourceTree = "<group>"; };
+		525B7F4C1FF5106500A61160 /* AntiColorFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AntiColorFilter.h; sourceTree = "<group>"; };
+		525B7F4D1FF5106500A61160 /* AntiColorFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AntiColorFilter.m; sourceTree = "<group>"; };
+		526CDC581FF51505009A2853 /* GrayScaleFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrayScaleFilter.h; sourceTree = "<group>"; };
+		526CDC591FF51505009A2853 /* GrayScaleFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrayScaleFilter.m; sourceTree = "<group>"; };
 		52A170DF1FE77DAF00E3FDA0 /* SACRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SACRender.h; sourceTree = "<group>"; };
 		52A170E01FE77DAF00E3FDA0 /* SACRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SACRender.m; sourceTree = "<group>"; };
 		52E495E31FDE310A00BA069B /* GrayScale.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GrayScale.vert; sourceTree = "<group>"; };
@@ -70,8 +76,6 @@
 			children = (
 				52A170DF1FE77DAF00E3FDA0 /* SACRender.h */,
 				52A170E01FE77DAF00E3FDA0 /* SACRender.m */,
-				525B7F421FF3CBB900A61160 /* SACFilter.h */,
-				525B7F431FF3CBB900A61160 /* SACFilter.m */,
 				525B7F3F1FF3C66000A61160 /* SACContext.h */,
 				525B7F401FF3C66000A61160 /* SACContext.m */,
 				52E495E81FDE32B100BA069B /* ShaderOperation.h */,
@@ -86,6 +90,19 @@
 				52E496081FDE9DC700BA069B /* IMG_0227.jpg */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		525B7F4F1FF5106900A61160 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				525B7F421FF3CBB900A61160 /* SACFilter.h */,
+				525B7F431FF3CBB900A61160 /* SACFilter.m */,
+				525B7F4C1FF5106500A61160 /* AntiColorFilter.h */,
+				525B7F4D1FF5106500A61160 /* AntiColorFilter.m */,
+				526CDC581FF51505009A2853 /* GrayScaleFilter.h */,
+				526CDC591FF51505009A2853 /* GrayScaleFilter.m */,
+			);
+			path = Filters;
 			sourceTree = "<group>";
 		};
 		52E495E71FDE310C00BA069B /* Shader */ = {
@@ -123,6 +140,7 @@
 				525B7F4A1FF3CF5300A61160 /* Resources */,
 				52E495E71FDE310C00BA069B /* Shader */,
 				525B7F491FF3CF3200A61160 /* Render */,
+				525B7F4F1FF5106900A61160 /* Filters */,
 				52F96BC41FD8F71300928F1E /* AppDelegate.h */,
 				52F96BC51FD8F71300928F1E /* AppDelegate.m */,
 				52F96BC71FD8F71300928F1E /* ViewController.h */,
@@ -214,11 +232,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				526CDC5A1FF51505009A2853 /* GrayScaleFilter.m in Sources */,
 				52F96BC91FD8F71300928F1E /* ViewController.m in Sources */,
 				525B7F411FF3C66000A61160 /* SACContext.m in Sources */,
 				52F96BD41FD8F71300928F1E /* main.m in Sources */,
 				52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */,
 				52E495EA1FDE32B100BA069B /* ShaderOperation.m in Sources */,
+				525B7F4E1FF5106500A61160 /* AntiColorFilter.m in Sources */,
 				525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */,
 				52A170E11FE77DAF00E3FDA0 /* SACRender.m in Sources */,
 			);

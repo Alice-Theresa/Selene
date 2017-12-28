@@ -9,11 +9,15 @@
 @import UIKit;
 @import OpenGLES;
 
+@class SACFilter;
+
 #import <Foundation/Foundation.h>
 
 @interface SACRender : NSObject
 
 - (instancetype)initWithImage:(UIImage *)image;
+- (void)addFilter:(SACFilter *)filter;
+- (void)loopFilters;
 - (UIImage *)fetchImage;
 
 @end

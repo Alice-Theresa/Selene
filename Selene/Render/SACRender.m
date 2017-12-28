@@ -9,6 +9,7 @@
 #import "SACRender.h"
 #import "ShaderOperation.h"
 #import "SACContext.h"
+#import "SACFilter.h"
 
 @interface SACRender ()
 
@@ -22,10 +23,8 @@
     GLuint _height;
     GLubyte *_imageData;
     
-    EAGLContext *_context;
-    
-    GLuint _texture;
-    GLuint _texture2;
+    GLuint _originTexture;
+    GLuint _outputTexture;
     
     GLuint _frameBuffer;
     GLuint _frameBuffer2;
@@ -49,15 +48,14 @@
         [self setupImage:image];
         [self setupContext];
         [self setupGLProgram];
-        [self setupOriginTexture];
+        [self setupRenderTexture];
         [self setupVBO];
         [self activeVBO];
-        [self setupTemp];
+        [self setupOutputTarget];
         [self render];
-        
-        [self setup2];
-        [self setupTemp2];
-        [self render];
+//        [self setup2];
+//        [self setupTemp2];
+//        [self render];
     }
     return self;
 }
@@ -80,55 +78,20 @@
 }
 
 - (void)setupGLProgram {
-    _glProgram = [ShaderOperation compileVertex:@"GrayScale" fragment:@"GrayScale"];
+    _glProgram = [ShaderOperation compileVertex:@"Origin" fragment:@"Origin"];
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
     _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
 }
 
-- (void)setupOriginTexture {
+- (void)setupRenderTexture {
     glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &_texture);
-    glBindTexture(GL_TEXTURE_2D, _texture);
+    glGenTextures(1, &_originTexture);
+    glBindTexture(GL_TEXTURE_2D, _originTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
     glUniform1i(glGetUniformLocation(_glProgram, "image"), 0);
-}
-
-- (void)setupTemp {
-    glActiveTexture(GL_TEXTURE1);
-    glGenTextures(1, &_texture2);
-    glBindTexture(GL_TEXTURE_2D, _texture2);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    
-    glGenFramebuffers(1, &_frameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture2, 0);
-}
-
-- (void)setup2 {
-    _glProgram2 = [ShaderOperation compileVertex:@"AntiColor" fragment:@"AntiColor"];
-    glUseProgram(_glProgram2);
-    _positionSlot = glGetAttribLocation(_glProgram2, "position");
-    _coordSlot = glGetAttribLocation(_glProgram2, "texcoord");
-}
-
-- (void)setupTemp2 {
-    GLuint texture3;
-    glActiveTexture(GL_TEXTURE2);
-    glGenTextures(1, &texture3);
-    glBindTexture(GL_TEXTURE_2D, texture3);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glUniform1i(glGetUniformLocation(_glProgram2, "image"), 1);
-    
-    glGenFramebuffers(1, &_frameBuffer2);
-    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer2);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture3, 0);
 }
 
 - (void)setupVBO {
@@ -154,11 +117,54 @@
     glEnableVertexAttribArray(_coordSlot);
 }
 
+- (void)setupOutputTarget {
+    glActiveTexture(GL_TEXTURE1);
+    glGenTextures(1, &_outputTexture);
+    glBindTexture(GL_TEXTURE_2D, _outputTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    
+    glGenFramebuffers(1, &_frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _outputTexture, 0);
+}
+
 - (void)render {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, _width, _height);
     glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+#pragma mark - public
+
+- (void)addFilter:(SACFilter *)filter {
+    [self.filters addObject:filter];
+}
+
+- (void)loopFilters {
+    GLint i = 1;
+    for (SACFilter *filter in self.filters) {
+        [self setupContext];
+        glUseProgram(filter.glProgram);
+        _positionSlot = glGetAttribLocation(filter.glProgram, "position");
+        _coordSlot = glGetAttribLocation(filter.glProgram, "texcoord");
+        glActiveTexture(GL_TEXTURE0 + i + 1);
+        GLuint texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glUniform1i(glGetUniformLocation(_glProgram, "image"), i);
+        
+        glGenFramebuffers(1, &_frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+        [self render];
+        i++;
+    }
 }
 
 - (UIImage *)fetchImage {
