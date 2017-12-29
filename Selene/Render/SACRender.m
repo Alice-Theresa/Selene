@@ -11,38 +11,44 @@
 #import "SACContext.h"
 #import "SACFilter.h"
 
+const int OriginTextureCount = 2;
+const int OriginFramebufferCount = 1;
+const int MaxTextureCount = 32;
+
 @interface SACRender ()
 
-@property (nonatomic, strong) NSMutableArray * filters;
+@property (nonatomic, strong) NSMutableArray *filters;
 @property (nonatomic, strong) dispatch_queue_t queue;
 
 @end
 
 @implementation SACRender {
+    GLuint* texturesArray[MaxTextureCount];
+    GLuint* frameBuffersArray[MaxTextureCount];
+    GLuint* programsArray[MaxTextureCount];
+    
     GLuint _width;
     GLuint _height;
     GLubyte *_imageData;
     
-    GLuint _originTexture;
-    GLuint _outputTexture;
-    
-    GLuint _frameBuffer;
-    GLuint _frameBuffer2;
-    
     GLuint _glProgram;
     GLuint _positionSlot;
     GLuint _coordSlot;
-    
-    GLuint _glProgram2;
 }
 
 - (void)dealloc {
-    [self cleanBuffer];
+    for (int i = 0; i < self.filters.count + OriginTextureCount; i++) {
+        glDeleteTextures(1, texturesArray[i]);
+    }
+    for (int i = 0; i < self.filters.count + OriginFramebufferCount; i++) {
+        glDeleteFramebuffers(1, frameBuffersArray[i]);
+    }
+    
 }
 
 - (instancetype)initWithImage:(UIImage *)image {
     if (self = [super init]) {
-        _queue = dispatch_queue_create("com.opengl.queue", 0);
+        _queue   = dispatch_queue_create("com.opengl.queue", 0);
         _filters = [NSMutableArray array];
         
         [self setupImage:image];
@@ -52,17 +58,8 @@
         [self setupVBO];
         [self activeVBO];
         [self setupOutputTarget];
-        [self render];
-//        [self setup2];
-//        [self setupTemp2];
-//        [self render];
     }
     return self;
-}
-
-- (void)cleanBuffer {
-    glDeleteFramebuffers(1, &_frameBuffer);
-    _frameBuffer = 0;
 }
 
 - (void)setupImage:(UIImage *)image {
@@ -85,9 +82,11 @@
 }
 
 - (void)setupRenderTexture {
+    GLuint texture;
     glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &_originTexture);
-    glBindTexture(GL_TEXTURE_2D, _originTexture);
+    texturesArray[0] = &texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
@@ -112,22 +111,25 @@
 - (void)activeVBO {
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, 0);
     glEnableVertexAttribArray(_positionSlot);
-    
     glVertexAttribPointer(_coordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT) * 3);
     glEnableVertexAttribArray(_coordSlot);
 }
 
 - (void)setupOutputTarget {
+    GLuint texture;
     glActiveTexture(GL_TEXTURE1);
-    glGenTextures(1, &_outputTexture);
-    glBindTexture(GL_TEXTURE_2D, _outputTexture);
+    texturesArray[1] = &texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
-    glGenFramebuffers(1, &_frameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _outputTexture, 0);
+    GLuint frameBuffer;
+    frameBuffersArray[0] = &frameBuffer;
+    glGenFramebuffers(1, &frameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
 }
 
 - (void)render {
@@ -140,30 +142,39 @@
 #pragma mark - public
 
 - (void)addFilter:(SACFilter *)filter {
-    [self.filters addObject:filter];
+    if (self.filters.count <= MaxTextureCount) {
+        [self.filters addObject:filter];
+    } else {
+        NSCAssert(NO, @"Max filters count is 32");
+    }
 }
 
-- (void)loopFilters {
-    GLint i = 1;
+- (void)startRender {
+    GLint index = 1;
+    [self render];
     for (SACFilter *filter in self.filters) {
         [self setupContext];
         glUseProgram(filter.glProgram);
         _positionSlot = glGetAttribLocation(filter.glProgram, "position");
         _coordSlot = glGetAttribLocation(filter.glProgram, "texcoord");
-        glActiveTexture(GL_TEXTURE0 + i + 1);
+        
+        glActiveTexture(GL_TEXTURE0 + index + 1);
         GLuint texture;
+        texturesArray[index + 1] = &texture;
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        glUniform1i(glGetUniformLocation(_glProgram, "image"), i);
+        glUniform1i(glGetUniformLocation(_glProgram, "image"), index);
         
-        glGenFramebuffers(1, &_frameBuffer);
-        glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
+        GLuint frameBuffer;
+        frameBuffersArray[index] = &frameBuffer;
+        glGenFramebuffers(1, &frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
         [self render];
-        i++;
+        index++;
     }
 }
 

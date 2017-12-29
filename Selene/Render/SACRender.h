@@ -17,7 +17,7 @@
 
 - (instancetype)initWithImage:(UIImage *)image;
 - (void)addFilter:(SACFilter *)filter;
-- (void)loopFilters;
+- (void)startRender;
 - (UIImage *)fetchImage;
 
 @end

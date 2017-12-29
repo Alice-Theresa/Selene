@@ -67,6 +67,8 @@
         NSLog(@"%@", messageString);
         exit(1);
     }
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
     return _glProgram;
 }
 

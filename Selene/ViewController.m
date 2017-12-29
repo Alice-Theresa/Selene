@@ -19,8 +19,9 @@
     SACRender *r = [[SACRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
     [r addFilter:[[GrayScaleFilter alloc] init]];
     [r addFilter:[[AntiColorFilter alloc] init]];
-    [r loopFilters];
+    [r startRender];
     UIImage *i = [r fetchImage];
+    
     UIImageView *iv = [[UIImageView alloc] initWithImage:i];
     iv.frame = self.view.bounds;
     [self.view addSubview:iv];
