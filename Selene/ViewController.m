@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "SACRender.h"
+#import "SACMixer.h"
 #import "AntiColorFilter.h"
 #import "GrayScaleFilter.h"
 
@@ -20,7 +21,9 @@
     [r addFilter:[[GrayScaleFilter alloc] init]];
     [r addFilter:[[AntiColorFilter alloc] init]];
     [r startRender];
-    UIImage *i = [r fetchImage];
+    SACMixer *m = [[SACMixer alloc] initWithRenderA:r renderB:nil];
+    [m render];
+    UIImage *i = [m fetchImage];
     
     UIImageView *iv = [[UIImageView alloc] initWithImage:i];
     iv.frame = self.view.bounds;

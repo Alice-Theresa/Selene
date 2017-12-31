@@ -1,32 +1,29 @@
 //
-//  SACRender.m
+//  SACMixer.m
 //  Selene
 //
-//  Created by Theresa on 2017/12/18.
+//  Created by S.C. on 2017/12/31.
 //  Copyright © 2017年 Theresa. All rights reserved.
 //
 
-#import <GLKit/GLKit.h>
-
+#import "SACMixer.h"
 #import "SACRender.h"
-#import "ShaderOperation.h"
 #import "SACContext.h"
-#import "SACFilter.h"
+#import "ShaderOperation.h"
 
-@interface SACRender ()
+@interface SACMixer ()
 
-@property (nonatomic, strong) NSMutableArray *filters;
-@property (nonatomic, strong) dispatch_queue_t queue;
+@property (nonatomic, strong) SACRender *renderA;
 
 @end
 
-@implementation SACRender {
+@implementation SACMixer {
     GLuint _width;
     GLuint _height;
-    GLubyte *_imageData;
     
-    GLuint _texture0;
-    GLuint _texture1;
+    GLuint _texture2;
+    GLuint _texture3;
+    GLuint _texture4;
     GLuint _frameBuffer;
     
     GLuint _glProgram;
@@ -34,21 +31,25 @@
     GLuint _coordSlot;
 }
 
-- (void)dealloc {
-    glDeleteTextures(1, &_texture0);
-    glDeleteTextures(1, &_texture1);
-    glDeleteFramebuffers(1, &_frameBuffer);
+- (instancetype)initWithRenderA:(SACRender *)render image:(UIImage *)image {
+    if (self = [super init]) {
+        
+    }
+    return self;
 }
 
-- (instancetype)initWithImage:(UIImage *)image {
+- (instancetype)initWithRenderA:(SACRender *)renderA renderB:(SACRender *)renderB {
     if (self = [super init]) {
-        _queue   = dispatch_queue_create("com.opengl.queue", 0);
-        _filters = [NSMutableArray array];
+        _width = renderA.width;
+        _height = renderA.height;
+        _renderA = renderA;
         
-        [self setupImage:image];
+        //todo B
+        
         [self setupContext];
         [self setupGLProgram];
         [self setupRenderTexture];
+        
         [self setupVBO];
         [self activeVBO];
         [self setupOutputTarget];
@@ -56,33 +57,30 @@
     return self;
 }
 
-- (void)setupImage:(UIImage *)image {
-    _width = image.size.width;
-    _height = image.size.height;
-    CGImageRef cgImage = image.CGImage;
-    CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-    _imageData = (GLubyte *)CFDataGetBytePtr(data);
-}
-
 - (void)setupContext {
     [[SACContext sharedContext] setCurrentContext];
 }
 
 - (void)setupGLProgram {
-    _glProgram = [ShaderOperation compileVertex:@"Origin" fragment:@"Origin"];
+    _glProgram = [ShaderOperation compileVertex:@"Mixer" fragment:@"Mixer"];
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
     _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
+    glUniform1i(glGetUniformLocation(_glProgram, "image"), 2);
 }
 
 - (void)setupRenderTexture {
-    glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &_texture0);
-    glBindTexture(GL_TEXTURE_2D, _texture0);
+    GLuint fbo;
+    glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
+    glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, [self.renderA fetchTexture], 0);
+    
+    glActiveTexture(GL_TEXTURE2);
+    glGenTextures(1, &_texture2);
+    glBindTexture(GL_TEXTURE_2D, _texture2);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
-    glUniform1i(glGetUniformLocation(_glProgram, "image"), 0);
+    glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, _width, _height, 0);
 }
 
 - (void)setupVBO {
@@ -108,16 +106,16 @@
 }
 
 - (void)setupOutputTarget {
-    glActiveTexture(GL_TEXTURE1);
-    glGenTextures(1, &_texture1);
-    glBindTexture(GL_TEXTURE_2D, _texture1);
+    glActiveTexture(GL_TEXTURE3);
+    glGenTextures(1, &_texture3);
+    glBindTexture(GL_TEXTURE_2D, _texture3);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
     glGenFramebuffers(1, &_frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture1, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture3, 0);
 }
 
 - (void)render {
@@ -125,52 +123,6 @@
     glClear(GL_COLOR_BUFFER_BIT);
     glViewport(0, 0, _width, _height);
     glDrawArrays(GL_TRIANGLES, 0, 6);
-}
-
-#pragma mark - public
-
-- (void)addFilter:(SACFilter *)filter {
-    [self.filters addObject:filter];
-}
-
-- (void)startRender {
-    [self render];
-    for (int i = 0; i < self.filters.count; i++) {
-        SACFilter *filter = self.filters[i];
-        glUseProgram(filter.glProgram);
-        _positionSlot = glGetAttribLocation(filter.glProgram, "position");
-        _coordSlot = glGetAttribLocation(filter.glProgram, "texcoord");
-        
-        GLuint texture, index;
-        if (i % 2 != 0) {
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, _texture0);
-            texture = _texture0;
-            index = 1;
-        } else {
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, _texture1);
-            texture  = _texture1;
-            index = 0;
-        }
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        glUniform1i(glGetUniformLocation(_glProgram, "image"), index);
-
-        glGenFramebuffers(1, &_frameBuffer);
-        glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
-        [self render];
-    }
-}
-
-- (GLuint)fetchTexture {
-    if (self.filters.count % 2 == 0) {
-        return _texture0;
-    } else {
-        return _texture1;
-    }
 }
 
 - (UIImage *)fetchImage {
@@ -194,7 +146,7 @@
                                                 kCGRenderingIntentDefault);
     CGDataProviderRelease(dataProvider);
     CGColorSpaceRelease(colorSpace);
-//    free(rawImagePixels); bug
+    //    free(rawImagePixels); bug
     return [UIImage imageWithCGImage:cgImageFromBytes];
 }
 

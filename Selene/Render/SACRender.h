@@ -15,8 +15,12 @@
 
 @interface SACRender : NSObject
 
+@property (nonatomic, assign) GLuint width;
+@property (nonatomic, assign) GLuint height;
+
 - (instancetype)initWithImage:(UIImage *)image;
 - (void)addFilter:(SACFilter *)filter;
+- (GLuint)fetchTexture;
 - (void)startRender;
 - (UIImage *)fetchImage;
 

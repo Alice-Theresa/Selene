@@ -26,6 +26,9 @@
 		52F96BD41FD8F71300928F1E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BD31FD8F71300928F1E /* main.m */; };
 		766790761FF288F300C05E68 /* AntiColor.vert in Resources */ = {isa = PBXBuildFile; fileRef = 766790741FF288F200C05E68 /* AntiColor.vert */; };
 		766790771FF288F300C05E68 /* AntiColor.frag in Resources */ = {isa = PBXBuildFile; fileRef = 766790751FF288F300C05E68 /* AntiColor.frag */; };
+		768C81A51FF8943500B91065 /* SACMixer.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C81A41FF8943500B91065 /* SACMixer.m */; };
+		768C81A81FF8951100B91065 /* Mixer.frag in Resources */ = {isa = PBXBuildFile; fileRef = 768C81A61FF8951100B91065 /* Mixer.frag */; };
+		768C81A91FF8951100B91065 /* Mixer.vert in Resources */ = {isa = PBXBuildFile; fileRef = 768C81A71FF8951100B91065 /* Mixer.vert */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +61,10 @@
 		52F96BD31FD8F71300928F1E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		766790741FF288F200C05E68 /* AntiColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AntiColor.vert; sourceTree = "<group>"; };
 		766790751FF288F300C05E68 /* AntiColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AntiColor.frag; sourceTree = "<group>"; };
+		768C81A31FF8943500B91065 /* SACMixer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SACMixer.h; sourceTree = "<group>"; };
+		768C81A41FF8943500B91065 /* SACMixer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SACMixer.m; sourceTree = "<group>"; };
+		768C81A61FF8951100B91065 /* Mixer.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Mixer.frag; sourceTree = "<group>"; };
+		768C81A71FF8951100B91065 /* Mixer.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Mixer.vert; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +83,8 @@
 			children = (
 				52A170DF1FE77DAF00E3FDA0 /* SACRender.h */,
 				52A170E01FE77DAF00E3FDA0 /* SACRender.m */,
+				768C81A31FF8943500B91065 /* SACMixer.h */,
+				768C81A41FF8943500B91065 /* SACMixer.m */,
 				525B7F3F1FF3C66000A61160 /* SACContext.h */,
 				525B7F401FF3C66000A61160 /* SACContext.m */,
 				52E495E81FDE32B100BA069B /* ShaderOperation.h */,
@@ -114,6 +123,8 @@
 				52E495E31FDE310A00BA069B /* GrayScale.vert */,
 				525B7F451FF3CF1100A61160 /* Origin.frag */,
 				525B7F461FF3CF1100A61160 /* Origin.vert */,
+				768C81A61FF8951100B91065 /* Mixer.frag */,
+				768C81A71FF8951100B91065 /* Mixer.vert */,
 			);
 			path = Shader;
 			sourceTree = "<group>";
@@ -214,10 +225,12 @@
 			files = (
 				525B7F481FF3CF1100A61160 /* Origin.vert in Resources */,
 				52F96BD11FD8F71300928F1E /* LaunchScreen.storyboard in Resources */,
+				768C81A91FF8951100B91065 /* Mixer.vert in Resources */,
 				525B7F471FF3CF1100A61160 /* Origin.frag in Resources */,
 				766790771FF288F300C05E68 /* AntiColor.frag in Resources */,
 				52F96BCE1FD8F71300928F1E /* Assets.xcassets in Resources */,
 				52E495E51FDE310A00BA069B /* GrayScale.vert in Resources */,
+				768C81A81FF8951100B91065 /* Mixer.frag in Resources */,
 				52E495E61FDE310A00BA069B /* GrayScale.frag in Resources */,
 				766790761FF288F300C05E68 /* AntiColor.vert in Resources */,
 				52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */,
@@ -241,6 +254,7 @@
 				525B7F4E1FF5106500A61160 /* AntiColorFilter.m in Sources */,
 				525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */,
 				52A170E11FE77DAF00E3FDA0 /* SACRender.m in Sources */,
+				768C81A51FF8943500B91065 /* SACMixer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
