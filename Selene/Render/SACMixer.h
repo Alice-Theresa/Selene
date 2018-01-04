@@ -17,6 +17,7 @@
 
 - (instancetype)initWithRenderA:(SACRender *)render image:(UIImage *)image;
 - (instancetype)initWithRenderA:(SACRender *)renderA renderB:(SACRender *)renderB;
+
 - (void)render;
 - (UIImage *)fetchImage;
 

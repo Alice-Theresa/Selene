@@ -20,6 +20,7 @@
 @implementation SACMixer {
     GLuint _width;
     GLuint _height;
+    GLubyte *_imageData;
     
     GLuint _texture2;
     GLuint _texture3;
@@ -33,18 +34,37 @@
 
 - (instancetype)initWithRenderA:(SACRender *)render image:(UIImage *)image {
     if (self = [super init]) {
+        _width = render.width;
+        _height = render.height;
+        _renderA = render;
         
+        // TODO:
+        if (image.size.width != _width && image.size.height != _height) {
+            
+        }
+        
+        CGImageRef cgImage = image.CGImage;
+        CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+        _imageData = (GLubyte *)CFDataGetBytePtr(data);
+        
+        [self setupContext];
+        [self setupGLProgram];
+        [self setupRenderTexture];
+        [self setupImageTexture];
+        
+        [self setupVBO];
+        [self activeVBO];
+        [self setupOutputTarget];
     }
     return self;
 }
 
+// TODO: B
 - (instancetype)initWithRenderA:(SACRender *)renderA renderB:(SACRender *)renderB {
     if (self = [super init]) {
         _width = renderA.width;
         _height = renderA.height;
         _renderA = renderA;
-        
-        //todo B
         
         [self setupContext];
         [self setupGLProgram];
@@ -66,7 +86,6 @@
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
     _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
-    glUniform1i(glGetUniformLocation(_glProgram, "image"), 2);
 }
 
 - (void)setupRenderTexture {
@@ -81,6 +100,17 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, _width, _height, 0);
+    glUniform1i(glGetUniformLocation(_glProgram, "image1"), 2);
+}
+
+- (void)setupImageTexture {
+    glActiveTexture(GL_TEXTURE3);
+    glGenTextures(1, &_texture3);
+    glBindTexture(GL_TEXTURE_2D, _texture3);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
+    glUniform1i(glGetUniformLocation(_glProgram, "image2"), 3);
 }
 
 - (void)setupVBO {
@@ -106,17 +136,19 @@
 }
 
 - (void)setupOutputTarget {
-    glActiveTexture(GL_TEXTURE3);
-    glGenTextures(1, &_texture3);
-    glBindTexture(GL_TEXTURE_2D, _texture3);
+    glActiveTexture(GL_TEXTURE4);
+    glGenTextures(1, &_texture4);
+    glBindTexture(GL_TEXTURE_2D, _texture4);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
     glGenFramebuffers(1, &_frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture3, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture4, 0);
 }
+
+#pragma mark - public
 
 - (void)render {
     glClearColor(1.0, 1.0, 1.0, 1.0);

@@ -11,6 +11,7 @@
 #import "SACMixer.h"
 #import "AntiColorFilter.h"
 #import "GrayScaleFilter.h"
+#import "SACContext.h"
 
 @implementation ViewController
 
@@ -18,10 +19,10 @@
     [super viewDidLoad];
 
     SACRender *r = [[SACRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
-    [r addFilter:[[GrayScaleFilter alloc] init]];
-    [r addFilter:[[AntiColorFilter alloc] init]];
+//    [r addFilter:[[GrayScaleFilter alloc] init]];
+//    [r addFilter:[[AntiColorFilter alloc] init]];
     [r startRender];
-    SACMixer *m = [[SACMixer alloc] initWithRenderA:r renderB:nil];
+    SACMixer *m = [[SACMixer alloc] initWithRenderA:r image:[UIImage imageNamed:@"Beauty.jpeg"]];
     [m render];
     UIImage *i = [m fetchImage];
     

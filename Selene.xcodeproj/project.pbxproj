@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520910581FFDC36400D4A19C /* Beauty.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 520910571FFDC36400D4A19C /* Beauty.jpeg */; };
 		525B7F411FF3C66000A61160 /* SACContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F401FF3C66000A61160 /* SACContext.m */; };
 		525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F431FF3CBB900A61160 /* SACFilter.m */; };
 		525B7F471FF3CF1100A61160 /* Origin.frag in Resources */ = {isa = PBXBuildFile; fileRef = 525B7F451FF3CF1100A61160 /* Origin.frag */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		520910571FFDC36400D4A19C /* Beauty.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Beauty.jpeg; sourceTree = "<group>"; };
 		525B7F3F1FF3C66000A61160 /* SACContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SACContext.h; sourceTree = "<group>"; };
 		525B7F401FF3C66000A61160 /* SACContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SACContext.m; sourceTree = "<group>"; };
 		525B7F421FF3CBB900A61160 /* SACFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SACFilter.h; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				52E496081FDE9DC700BA069B /* IMG_0227.jpg */,
+				520910571FFDC36400D4A19C /* Beauty.jpeg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				525B7F481FF3CF1100A61160 /* Origin.vert in Resources */,
+				520910581FFDC36400D4A19C /* Beauty.jpeg in Resources */,
 				52F96BD11FD8F71300928F1E /* LaunchScreen.storyboard in Resources */,
 				768C81A91FF8951100B91065 /* Mixer.vert in Resources */,
 				525B7F471FF3CF1100A61160 /* Origin.frag in Resources */,

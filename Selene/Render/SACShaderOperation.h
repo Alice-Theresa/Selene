@@ -1,5 +1,5 @@
 //
-//  ShaderOperation.h
+//  SACShaderOperation.h
 //  Selene
 //
 //  Created by Theresa on 2017/12/11.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <OpenGLES/ES3/gl.h>
 
-@interface ShaderOperation : NSObject
+@interface SACShaderOperation : NSObject
 
 + (GLuint)compileShader:(NSString *)shaderName withType:(GLenum)shaderType;
 + (GLuint)compileVertex:(NSString *)shaderVertex fragment:(NSString *)shaderFragment;

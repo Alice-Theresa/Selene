@@ -6,9 +6,9 @@
 //  Copyright © 2017年 Theresa. All rights reserved.
 //
 
-#import "ShaderOperation.h"
+#import "SACShaderOperation.h"
 
-@implementation ShaderOperation
+@implementation SACShaderOperation
 
 + (GLuint)compileShader:(NSString *)shaderName withType:(GLenum)shaderType {
     // 1 查找shader文件
@@ -46,8 +46,8 @@
 
 + (GLuint)compileVertex:(NSString *)vertex fragment:(NSString *)fragment {
     // 1 vertex和fragment两个shader都要编译
-    GLuint vertexShader = [ShaderOperation compileShader:vertex withType:GL_VERTEX_SHADER];
-    GLuint fragmentShader = [ShaderOperation compileShader:fragment withType:GL_FRAGMENT_SHADER];
+    GLuint vertexShader = [SACShaderOperation compileShader:vertex withType:GL_VERTEX_SHADER];
+    GLuint fragmentShader = [SACShaderOperation compileShader:fragment withType:GL_FRAGMENT_SHADER];
     
     // 2 连接vertex和fragment shader成一个完整的program
     GLuint _glProgram = glCreateProgram();
