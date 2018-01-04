@@ -14,7 +14,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _glProgram = [ShaderOperation compileVertex:@"AntiColor" fragment:@"AntiColor"];
+        _glProgram = [SACShaderOperation compileVertex:@"AntiColor" fragment:@"AntiColor"];
     }
     return self;
 }

@@ -9,7 +9,7 @@
 @import OpenGLES;
 
 #import <Foundation/Foundation.h>
-#import "ShaderOperation.h"
+#import "SACShaderOperation.h"
 
 @interface SACFilter : NSObject
 

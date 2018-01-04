@@ -9,7 +9,7 @@
 #import "SACMixer.h"
 #import "SACRender.h"
 #import "SACContext.h"
-#import "ShaderOperation.h"
+#import "SACShaderOperation.h"
 
 @interface SACMixer ()
 
@@ -82,7 +82,7 @@
 }
 
 - (void)setupGLProgram {
-    _glProgram = [ShaderOperation compileVertex:@"Mixer" fragment:@"Mixer"];
+    _glProgram = [SACShaderOperation compileVertex:@"Mixer" fragment:@"Mixer"];
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
     _coordSlot = glGetAttribLocation(_glProgram, "texcoord");

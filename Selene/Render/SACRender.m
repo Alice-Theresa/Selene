@@ -9,7 +9,7 @@
 #import <GLKit/GLKit.h>
 
 #import "SACRender.h"
-#import "ShaderOperation.h"
+#import "SACShaderOperation.h"
 #import "SACContext.h"
 #import "SACFilter.h"
 
@@ -69,7 +69,7 @@
 }
 
 - (void)setupGLProgram {
-    _glProgram = [ShaderOperation compileVertex:@"Origin" fragment:@"Origin"];
+    _glProgram = [SACShaderOperation compileVertex:@"Origin" fragment:@"Origin"];
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
     _coordSlot = glGetAttribLocation(_glProgram, "texcoord");

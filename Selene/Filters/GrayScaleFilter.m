@@ -14,7 +14,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _glProgram = [ShaderOperation compileVertex:@"GrayScale" fragment:@"GrayScale"];
+        _glProgram = [SACShaderOperation compileVertex:@"GrayScale" fragment:@"GrayScale"];
     }
     return self;
 }

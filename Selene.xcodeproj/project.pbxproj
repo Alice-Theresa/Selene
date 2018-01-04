@@ -17,8 +17,8 @@
 		52A170E11FE77DAF00E3FDA0 /* SACRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A170E01FE77DAF00E3FDA0 /* SACRender.m */; };
 		52E495E51FDE310A00BA069B /* GrayScale.vert in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E31FDE310A00BA069B /* GrayScale.vert */; };
 		52E495E61FDE310A00BA069B /* GrayScale.frag in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E41FDE310A00BA069B /* GrayScale.frag */; };
-		52E495EA1FDE32B100BA069B /* ShaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E495E91FDE32B100BA069B /* ShaderOperation.m */; };
 		52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52E496081FDE9DC700BA069B /* IMG_0227.jpg */; };
+		52F0B8561FFDDD3A00428C11 /* SACShaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0B8541FFDDD3900428C11 /* SACShaderOperation.m */; };
 		52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BC51FD8F71300928F1E /* AppDelegate.m */; };
 		52F96BC91FD8F71300928F1E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BC81FD8F71300928F1E /* ViewController.m */; };
 		52F96BCC1FD8F71300928F1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCA1FD8F71300928F1E /* Main.storyboard */; };
@@ -48,9 +48,9 @@
 		52A170E01FE77DAF00E3FDA0 /* SACRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SACRender.m; sourceTree = "<group>"; };
 		52E495E31FDE310A00BA069B /* GrayScale.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GrayScale.vert; sourceTree = "<group>"; };
 		52E495E41FDE310A00BA069B /* GrayScale.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GrayScale.frag; sourceTree = "<group>"; };
-		52E495E81FDE32B100BA069B /* ShaderOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderOperation.h; sourceTree = "<group>"; };
-		52E495E91FDE32B100BA069B /* ShaderOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShaderOperation.m; sourceTree = "<group>"; };
 		52E496081FDE9DC700BA069B /* IMG_0227.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0227.jpg; sourceTree = "<group>"; };
+		52F0B8541FFDDD3900428C11 /* SACShaderOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SACShaderOperation.m; sourceTree = "<group>"; };
+		52F0B8551FFDDD3A00428C11 /* SACShaderOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SACShaderOperation.h; sourceTree = "<group>"; };
 		52F96BC11FD8F71300928F1E /* Selene.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Selene.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F96BC41FD8F71300928F1E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		52F96BC51FD8F71300928F1E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -89,8 +89,8 @@
 				768C81A41FF8943500B91065 /* SACMixer.m */,
 				525B7F3F1FF3C66000A61160 /* SACContext.h */,
 				525B7F401FF3C66000A61160 /* SACContext.m */,
-				52E495E81FDE32B100BA069B /* ShaderOperation.h */,
-				52E495E91FDE32B100BA069B /* ShaderOperation.m */,
+				52F0B8551FFDDD3A00428C11 /* SACShaderOperation.h */,
+				52F0B8541FFDDD3900428C11 /* SACShaderOperation.m */,
 			);
 			path = Render;
 			sourceTree = "<group>";
@@ -253,8 +253,8 @@
 				52F96BC91FD8F71300928F1E /* ViewController.m in Sources */,
 				525B7F411FF3C66000A61160 /* SACContext.m in Sources */,
 				52F96BD41FD8F71300928F1E /* main.m in Sources */,
+				52F0B8561FFDDD3A00428C11 /* SACShaderOperation.m in Sources */,
 				52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */,
-				52E495EA1FDE32B100BA069B /* ShaderOperation.m in Sources */,
 				525B7F4E1FF5106500A61160 /* AntiColorFilter.m in Sources */,
 				525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */,
 				52A170E11FE77DAF00E3FDA0 /* SACRender.m in Sources */,
