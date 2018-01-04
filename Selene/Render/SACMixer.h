@@ -9,14 +9,17 @@
 @import UIKit;
 @import OpenGLES;
 
-@class SACRender;
+@class SACChainRender;
 
 #import <Foundation/Foundation.h>
 
 @interface SACMixer : NSObject
 
-- (instancetype)initWithRenderA:(SACRender *)render image:(UIImage *)image;
-- (instancetype)initWithRenderA:(SACRender *)renderA renderB:(SACRender *)renderB;
+@property (nonatomic, assign) GLuint width;
+@property (nonatomic, assign) GLuint height;
+
+- (instancetype)initWithRenderA:(SACChainRender *)render image:(UIImage *)image;
+- (instancetype)initWithRenderA:(SACChainRender *)renderA renderB:(SACChainRender *)renderB;
 
 - (void)render;
 - (UIImage *)fetchImage;

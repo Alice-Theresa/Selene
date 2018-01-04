@@ -7,19 +7,18 @@
 //
 
 #import "SACMixer.h"
-#import "SACRender.h"
+#import "SACChainRender.h"
 #import "SACContext.h"
 #import "SACShaderOperation.h"
 
 @interface SACMixer ()
 
-@property (nonatomic, strong) SACRender *renderA;
+@property (nonatomic, strong) SACChainRender *renderA;
+@property (nonatomic, strong) SACChainRender *renderB;
 
 @end
 
 @implementation SACMixer {
-    GLuint _width;
-    GLuint _height;
     GLubyte *_imageData;
     
     GLuint _texture2;
@@ -32,7 +31,8 @@
     GLuint _coordSlot;
 }
 
-- (instancetype)initWithRenderA:(SACRender *)render image:(UIImage *)image {
+
+- (instancetype)initWithRenderA:(SACChainRender *)render image:(UIImage *)image {
     if (self = [super init]) {
         _width = render.width;
         _height = render.height;
@@ -48,10 +48,12 @@
         _imageData = (GLubyte *)CFDataGetBytePtr(data);
         
         [self setupContext];
-        [self setupGLProgram];
-        [self setupRenderTexture];
+        [self.renderA startRender];
+        [self setupRenderTextureA];
+        
         [self setupImageTexture];
         
+        [self setupGLProgram];
         [self setupVBO];
         [self activeVBO];
         [self setupOutputTarget];
@@ -59,17 +61,21 @@
     return self;
 }
 
-// TODO: B
-- (instancetype)initWithRenderA:(SACRender *)renderA renderB:(SACRender *)renderB {
+- (instancetype)initWithRenderA:(SACChainRender *)renderA renderB:(SACChainRender *)renderB {
     if (self = [super init]) {
         _width = renderA.width;
         _height = renderA.height;
         _renderA = renderA;
+        _renderB = renderB;
         
         [self setupContext];
-        [self setupGLProgram];
-        [self setupRenderTexture];
+        [self.renderA startRender];
+        [self setupRenderTextureA];
         
+        [self.renderB startRender];
+        [self setupRenderTextureB];
+        
+        [self setupGLProgram];
         [self setupVBO];
         [self activeVBO];
         [self setupOutputTarget];
@@ -86,9 +92,11 @@
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
     _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
+    glUniform1i(glGetUniformLocation(_glProgram, "image1"), 2);
+    glUniform1i(glGetUniformLocation(_glProgram, "image2"), 3);
 }
 
-- (void)setupRenderTexture {
+- (void)setupRenderTextureA {
     GLuint fbo;
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
@@ -100,7 +108,22 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, _width, _height, 0);
-    glUniform1i(glGetUniformLocation(_glProgram, "image1"), 2);
+    
+}
+
+- (void)setupRenderTextureB {
+    GLuint fbo;
+    glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
+    glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, [self.renderB fetchTexture], 0);
+    
+    glActiveTexture(GL_TEXTURE3);
+    glGenTextures(1, &_texture3);
+    glBindTexture(GL_TEXTURE_2D, _texture3);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, _width, _height, 0);
+    
 }
 
 - (void)setupImageTexture {
@@ -110,7 +133,6 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
-    glUniform1i(glGetUniformLocation(_glProgram, "image2"), 3);
 }
 
 - (void)setupVBO {
@@ -160,9 +182,9 @@
 - (UIImage *)fetchImage {
     GLuint totalBytesForImage = _width * _height * 4;
     GLubyte *rawImagePixels = (GLubyte *)malloc(totalBytesForImage * sizeof(GLubyte));
-    
+
     glReadPixels(0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
-    
+
     CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rawImagePixels, totalBytesForImage, NULL);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGImageRef cgImageFromBytes = CGImageCreate(_width,

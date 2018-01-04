@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SACRender.h"
+#import "SACChainRender.h"
 #import "SACMixer.h"
 #import "AntiColorFilter.h"
 #import "GrayScaleFilter.h"
@@ -18,13 +18,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    SACRender *r = [[SACRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
-//    [r addFilter:[[GrayScaleFilter alloc] init]];
-//    [r addFilter:[[AntiColorFilter alloc] init]];
-    [r startRender];
-    SACMixer *m = [[SACMixer alloc] initWithRenderA:r image:[UIImage imageNamed:@"Beauty.jpeg"]];
+    SACChainRender *r = [[SACChainRender alloc] initWithImage:[UIImage imageNamed:@"IMG_0227.jpg"]];
+    [r addFilter:[[GrayScaleFilter alloc] init]];
+    SACChainRender *r2 = [[SACChainRender alloc] initWithImage:[UIImage imageNamed:@"Beauty.jpeg"]];
+    [r2 addFilter:[[AntiColorFilter alloc] init]];
+    
+    SACMixer *m = [[SACMixer alloc] initWithRenderA:r renderB:r2];
     [m render];
-    UIImage *i = [m fetchImage];
+    UIImage *i = [r fetchImage];
     
     UIImageView *iv = [[UIImageView alloc] initWithImage:i];
     iv.frame = self.view.bounds;

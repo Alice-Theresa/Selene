@@ -1,5 +1,5 @@
 //
-//  SACRender.h
+//  SACChainRender.h
 //  Selene
 //
 //  Created by Theresa on 2017/12/18.
@@ -13,7 +13,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SACRender : NSObject
+@interface SACChainRender : NSObject
 
 @property (nonatomic, assign) GLuint width;
 @property (nonatomic, assign) GLuint height;

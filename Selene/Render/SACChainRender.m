@@ -1,5 +1,5 @@
 //
-//  SACRender.m
+//  SACChainRender.m
 //  Selene
 //
 //  Created by Theresa on 2017/12/18.
@@ -8,21 +8,19 @@
 
 #import <GLKit/GLKit.h>
 
-#import "SACRender.h"
+#import "SACChainRender.h"
 #import "SACShaderOperation.h"
 #import "SACContext.h"
 #import "SACFilter.h"
 
-@interface SACRender ()
+@interface SACChainRender ()
 
 @property (nonatomic, strong) NSMutableArray *filters;
 @property (nonatomic, strong) dispatch_queue_t queue;
 
 @end
 
-@implementation SACRender {
-    GLuint _width;
-    GLuint _height;
+@implementation SACChainRender {
     GLubyte *_imageData;
     
     GLuint _texture0;
@@ -44,24 +42,16 @@
     if (self = [super init]) {
         _queue   = dispatch_queue_create("com.opengl.queue", 0);
         _filters = [NSMutableArray array];
+        _width   = image.size.width;
+        _height  = image.size.height;
         
-        [self setupImage:image];
+        CGImageRef cgImage = image.CGImage;
+        CFDataRef data     = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+        _imageData         = (GLubyte *)CFDataGetBytePtr(data);
+    
         [self setupContext];
-        [self setupGLProgram];
-        [self setupRenderTexture];
-        [self setupVBO];
-        [self activeVBO];
-        [self setupOutputTarget];
     }
     return self;
-}
-
-- (void)setupImage:(UIImage *)image {
-    _width = image.size.width;
-    _height = image.size.height;
-    CGImageRef cgImage = image.CGImage;
-    CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-    _imageData = (GLubyte *)CFDataGetBytePtr(data);
 }
 
 - (void)setupContext {
@@ -134,6 +124,11 @@
 }
 
 - (void)startRender {
+    [self setupGLProgram];
+    [self setupRenderTexture];
+    [self setupVBO];
+    [self activeVBO];
+    [self setupOutputTarget];
     [self render];
     for (int i = 0; i < self.filters.count; i++) {
         SACFilter *filter = self.filters[i];
