@@ -21,6 +21,7 @@
 @end
 
 @implementation SACChainRender {
+    CFDataRef data;
     GLubyte *_imageData;
     
     GLuint _texture0;
@@ -30,12 +31,19 @@
     GLuint _glProgram;
     GLuint _positionSlot;
     GLuint _coordSlot;
+    GLuint _vbo;
+    
+    GLubyte *_rawImagePixels;
 }
 
 - (void)dealloc {
     glDeleteTextures(1, &_texture0);
     glDeleteTextures(1, &_texture1);
     glDeleteFramebuffers(1, &_frameBuffer);
+    glDeleteProgram(_glProgram);
+    glDeleteBuffers(1, &_vbo);
+    free(_rawImagePixels);
+    CFRelease(data);
 }
 
 - (instancetype)initWithImage:(UIImage *)image {
@@ -46,7 +54,7 @@
         _height  = image.size.height;
         
         CGImageRef cgImage = image.CGImage;
-        CFDataRef data     = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+        data               = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
         _imageData         = (GLubyte *)CFDataGetBytePtr(data);
     
         [self setupContext];
@@ -84,9 +92,8 @@
         -1.0f,  1.0f, 0.0f, 0.0f, 0.0f,  // 左上
         1.0f,  1.0f, 0.0f, 1.0f, 0.0f,   // 右上
     };
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glGenBuffers(1, &_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
@@ -170,11 +177,11 @@
 
 - (UIImage *)fetchImage {
     GLuint totalBytesForImage = _width * _height * 4;
-    GLubyte *rawImagePixels = (GLubyte *)malloc(totalBytesForImage * sizeof(GLubyte));
+    _rawImagePixels = (GLubyte *)malloc(totalBytesForImage * sizeof(GLubyte));
     
-    glReadPixels(0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
+    glReadPixels(0, 0, _width, _height, GL_RGBA, GL_UNSIGNED_BYTE, _rawImagePixels);
     
-    CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rawImagePixels, totalBytesForImage, NULL);
+    CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, _rawImagePixels, totalBytesForImage, NULL);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGImageRef cgImageFromBytes = CGImageCreate(_width,
                                                 _height,
@@ -189,7 +196,6 @@
                                                 kCGRenderingIntentDefault);
     CGDataProviderRelease(dataProvider);
     CGColorSpaceRelease(colorSpace);
-//    free(rawImagePixels); bug
     return [UIImage imageWithCGImage:cgImageFromBytes];
 }
 

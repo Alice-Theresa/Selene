@@ -25,7 +25,7 @@
     
     SACMixer *m = [[SACMixer alloc] initWithRenderA:r renderB:r2];
     [m render];
-    UIImage *i = [r fetchImage];
+    UIImage *i = [m fetchImage];
     
     UIImageView *iv = [[UIImageView alloc] initWithImage:i];
     iv.frame = self.view.bounds;

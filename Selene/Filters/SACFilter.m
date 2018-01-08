@@ -11,7 +11,7 @@
 @implementation SACFilter
 
 - (void)dealloc {
-    
+    glDeleteProgram(_glProgram);
 }
 
 @end
