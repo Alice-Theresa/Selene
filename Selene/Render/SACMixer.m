@@ -31,6 +31,7 @@
     GLuint _coordSlot;
 }
 
+// TODO: dealloc
 
 - (instancetype)initWithRenderA:(SACChainRender *)render image:(UIImage *)image {
     if (self = [super init]) {
@@ -38,7 +39,7 @@
         _height = render.height;
         _renderA = render;
         
-        // TODO:
+        // TODO: 2 images must be same size
         if (image.size.width != _width && image.size.height != _height) {
             
         }

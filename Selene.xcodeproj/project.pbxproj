@@ -14,6 +14,9 @@
 		525B7F481FF3CF1100A61160 /* Origin.vert in Resources */ = {isa = PBXBuildFile; fileRef = 525B7F461FF3CF1100A61160 /* Origin.vert */; };
 		525B7F4E1FF5106500A61160 /* AntiColorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F4D1FF5106500A61160 /* AntiColorFilter.m */; };
 		526CDC5A1FF51505009A2853 /* GrayScaleFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 526CDC591FF51505009A2853 /* GrayScaleFilter.m */; };
+		526FB4A220046904005A3A8A /* SobelFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 526FB4A120046904005A3A8A /* SobelFilter.m */; };
+		526FB4A52004695D005A3A8A /* Sobel.frag in Resources */ = {isa = PBXBuildFile; fileRef = 526FB4A32004695D005A3A8A /* Sobel.frag */; };
+		526FB4A62004695D005A3A8A /* Sobel.vert in Resources */ = {isa = PBXBuildFile; fileRef = 526FB4A42004695D005A3A8A /* Sobel.vert */; };
 		52A170E11FE77DAF00E3FDA0 /* SACChainRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A170E01FE77DAF00E3FDA0 /* SACChainRender.m */; };
 		52E495E51FDE310A00BA069B /* GrayScale.vert in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E31FDE310A00BA069B /* GrayScale.vert */; };
 		52E495E61FDE310A00BA069B /* GrayScale.frag in Resources */ = {isa = PBXBuildFile; fileRef = 52E495E41FDE310A00BA069B /* GrayScale.frag */; };
@@ -44,6 +47,10 @@
 		525B7F4D1FF5106500A61160 /* AntiColorFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AntiColorFilter.m; sourceTree = "<group>"; };
 		526CDC581FF51505009A2853 /* GrayScaleFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrayScaleFilter.h; sourceTree = "<group>"; };
 		526CDC591FF51505009A2853 /* GrayScaleFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrayScaleFilter.m; sourceTree = "<group>"; };
+		526FB4A020046904005A3A8A /* SobelFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SobelFilter.h; sourceTree = "<group>"; };
+		526FB4A120046904005A3A8A /* SobelFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SobelFilter.m; sourceTree = "<group>"; };
+		526FB4A32004695D005A3A8A /* Sobel.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Sobel.frag; sourceTree = "<group>"; };
+		526FB4A42004695D005A3A8A /* Sobel.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Sobel.vert; sourceTree = "<group>"; };
 		52A170DF1FE77DAF00E3FDA0 /* SACChainRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SACChainRender.h; sourceTree = "<group>"; };
 		52A170E01FE77DAF00E3FDA0 /* SACChainRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SACChainRender.m; sourceTree = "<group>"; };
 		52E495E31FDE310A00BA069B /* GrayScale.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GrayScale.vert; sourceTree = "<group>"; };
@@ -113,6 +120,8 @@
 				525B7F4D1FF5106500A61160 /* AntiColorFilter.m */,
 				526CDC581FF51505009A2853 /* GrayScaleFilter.h */,
 				526CDC591FF51505009A2853 /* GrayScaleFilter.m */,
+				526FB4A020046904005A3A8A /* SobelFilter.h */,
+				526FB4A120046904005A3A8A /* SobelFilter.m */,
 			);
 			path = Filters;
 			sourceTree = "<group>";
@@ -128,6 +137,8 @@
 				525B7F461FF3CF1100A61160 /* Origin.vert */,
 				768C81A61FF8951100B91065 /* Mixer.frag */,
 				768C81A71FF8951100B91065 /* Mixer.vert */,
+				526FB4A32004695D005A3A8A /* Sobel.frag */,
+				526FB4A42004695D005A3A8A /* Sobel.vert */,
 			);
 			path = Shader;
 			sourceTree = "<group>";
@@ -237,8 +248,10 @@
 				768C81A81FF8951100B91065 /* Mixer.frag in Resources */,
 				52E495E61FDE310A00BA069B /* GrayScale.frag in Resources */,
 				766790761FF288F300C05E68 /* AntiColor.vert in Resources */,
+				526FB4A52004695D005A3A8A /* Sobel.frag in Resources */,
 				52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */,
 				52F96BCC1FD8F71300928F1E /* Main.storyboard in Resources */,
+				526FB4A62004695D005A3A8A /* Sobel.vert in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +265,7 @@
 				526CDC5A1FF51505009A2853 /* GrayScaleFilter.m in Sources */,
 				52F96BC91FD8F71300928F1E /* ViewController.m in Sources */,
 				525B7F411FF3C66000A61160 /* SACContext.m in Sources */,
+				526FB4A220046904005A3A8A /* SobelFilter.m in Sources */,
 				52F96BD41FD8F71300928F1E /* main.m in Sources */,
 				52F0B8561FFDDD3A00428C11 /* SACShaderOperation.m in Sources */,
 				52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */,
@@ -393,7 +407,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F72NM3PQH6;
+				DEVELOPMENT_TEAM = RJX3H8KBAF;
 				INFOPLIST_FILE = Selene/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Theresa.Selene;
@@ -407,7 +421,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F72NM3PQH6;
+				DEVELOPMENT_TEAM = RJX3H8KBAF;
 				INFOPLIST_FILE = Selene/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Theresa.Selene;

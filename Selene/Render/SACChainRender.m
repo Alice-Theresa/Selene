@@ -42,7 +42,7 @@
     glDeleteFramebuffers(1, &_frameBuffer);
     glDeleteProgram(_glProgram);
     glDeleteBuffers(1, &_vbo);
-    free(_rawImagePixels);
+//    free(_rawImagePixels); bug
     CFRelease(data);
 }
 
@@ -52,10 +52,9 @@
         _filters = [NSMutableArray array];
         _width   = image.size.width;
         _height  = image.size.height;
-        
-        CGImageRef cgImage = image.CGImage;
-        data               = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-        _imageData         = (GLubyte *)CFDataGetBytePtr(data);
+
+        data       = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
+        _imageData = (GLubyte *)CFDataGetBytePtr(data);
     
         [self setupContext];
     }
@@ -71,6 +70,7 @@
     glUseProgram(_glProgram);
     _positionSlot = glGetAttribLocation(_glProgram, "position");
     _coordSlot = glGetAttribLocation(_glProgram, "texcoord");
+    glUniform1i(glGetUniformLocation(_glProgram, "image"), 0);
 }
 
 - (void)setupRenderTexture {
@@ -80,7 +80,6 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _imageData);
-    glUniform1i(glGetUniformLocation(_glProgram, "image"), 0);
 }
 
 - (void)setupVBO {
