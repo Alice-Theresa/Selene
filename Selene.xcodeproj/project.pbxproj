@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		520910581FFDC36400D4A19C /* Beauty.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 520910571FFDC36400D4A19C /* Beauty.jpeg */; };
+		522C2F532007668100E3E02A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522C2F522007668100E3E02A /* MainViewController.m */; };
+		522C2F59200766A000E3E02A /* VideoProcessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522C2F58200766A000E3E02A /* VideoProcessViewController.m */; };
+		522C2F5C200766AB00E3E02A /* ImageProcessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 522C2F5B200766AB00E3E02A /* ImageProcessViewController.m */; };
 		525B7F411FF3C66000A61160 /* SACContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F401FF3C66000A61160 /* SACContext.m */; };
 		525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 525B7F431FF3CBB900A61160 /* SACFilter.m */; };
 		525B7F471FF3CF1100A61160 /* Origin.frag in Resources */ = {isa = PBXBuildFile; fileRef = 525B7F451FF3CF1100A61160 /* Origin.frag */; };
@@ -23,7 +26,6 @@
 		52E496091FDE9DC700BA069B /* IMG_0227.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 52E496081FDE9DC700BA069B /* IMG_0227.jpg */; };
 		52F0B8561FFDDD3A00428C11 /* SACShaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F0B8541FFDDD3900428C11 /* SACShaderOperation.m */; };
 		52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BC51FD8F71300928F1E /* AppDelegate.m */; };
-		52F96BC91FD8F71300928F1E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F96BC81FD8F71300928F1E /* ViewController.m */; };
 		52F96BCC1FD8F71300928F1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCA1FD8F71300928F1E /* Main.storyboard */; };
 		52F96BCE1FD8F71300928F1E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCD1FD8F71300928F1E /* Assets.xcassets */; };
 		52F96BD11FD8F71300928F1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52F96BCF1FD8F71300928F1E /* LaunchScreen.storyboard */; };
@@ -37,6 +39,12 @@
 
 /* Begin PBXFileReference section */
 		520910571FFDC36400D4A19C /* Beauty.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Beauty.jpeg; sourceTree = "<group>"; };
+		522C2F512007668100E3E02A /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		522C2F522007668100E3E02A /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		522C2F57200766A000E3E02A /* VideoProcessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoProcessViewController.h; sourceTree = "<group>"; };
+		522C2F58200766A000E3E02A /* VideoProcessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoProcessViewController.m; sourceTree = "<group>"; };
+		522C2F5A200766AB00E3E02A /* ImageProcessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageProcessViewController.h; sourceTree = "<group>"; };
+		522C2F5B200766AB00E3E02A /* ImageProcessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageProcessViewController.m; sourceTree = "<group>"; };
 		525B7F3F1FF3C66000A61160 /* SACContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SACContext.h; sourceTree = "<group>"; };
 		525B7F401FF3C66000A61160 /* SACContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SACContext.m; sourceTree = "<group>"; };
 		525B7F421FF3CBB900A61160 /* SACFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SACFilter.h; sourceTree = "<group>"; };
@@ -61,8 +69,6 @@
 		52F96BC11FD8F71300928F1E /* Selene.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Selene.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F96BC41FD8F71300928F1E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		52F96BC51FD8F71300928F1E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		52F96BC71FD8F71300928F1E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		52F96BC81FD8F71300928F1E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		52F96BCB1FD8F71300928F1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52F96BCD1FD8F71300928F1E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52F96BD01FD8F71300928F1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -87,6 +93,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		522C2F502007663E00E3E02A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				522C2F512007668100E3E02A /* MainViewController.h */,
+				522C2F522007668100E3E02A /* MainViewController.m */,
+				522C2F57200766A000E3E02A /* VideoProcessViewController.h */,
+				522C2F58200766A000E3E02A /* VideoProcessViewController.m */,
+				522C2F5A200766AB00E3E02A /* ImageProcessViewController.h */,
+				522C2F5B200766AB00E3E02A /* ImageProcessViewController.m */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		525B7F491FF3CF3200A61160 /* Render */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,10 +185,9 @@
 				52E495E71FDE310C00BA069B /* Shader */,
 				525B7F491FF3CF3200A61160 /* Render */,
 				525B7F4F1FF5106900A61160 /* Filters */,
+				522C2F502007663E00E3E02A /* UI */,
 				52F96BC41FD8F71300928F1E /* AppDelegate.h */,
 				52F96BC51FD8F71300928F1E /* AppDelegate.m */,
-				52F96BC71FD8F71300928F1E /* ViewController.h */,
-				52F96BC81FD8F71300928F1E /* ViewController.m */,
 				52F96BCA1FD8F71300928F1E /* Main.storyboard */,
 				52F96BCD1FD8F71300928F1E /* Assets.xcassets */,
 				52F96BCF1FD8F71300928F1E /* LaunchScreen.storyboard */,
@@ -263,12 +281,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				526CDC5A1FF51505009A2853 /* GrayScaleFilter.m in Sources */,
-				52F96BC91FD8F71300928F1E /* ViewController.m in Sources */,
 				525B7F411FF3C66000A61160 /* SACContext.m in Sources */,
 				526FB4A220046904005A3A8A /* SobelFilter.m in Sources */,
 				52F96BD41FD8F71300928F1E /* main.m in Sources */,
 				52F0B8561FFDDD3A00428C11 /* SACShaderOperation.m in Sources */,
 				52F96BC61FD8F71300928F1E /* AppDelegate.m in Sources */,
+				522C2F59200766A000E3E02A /* VideoProcessViewController.m in Sources */,
+				522C2F5C200766AB00E3E02A /* ImageProcessViewController.m in Sources */,
+				522C2F532007668100E3E02A /* MainViewController.m in Sources */,
 				525B7F4E1FF5106500A61160 /* AntiColorFilter.m in Sources */,
 				525B7F441FF3CBB900A61160 /* SACFilter.m in Sources */,
 				52A170E11FE77DAF00E3FDA0 /* SACChainRender.m in Sources */,
